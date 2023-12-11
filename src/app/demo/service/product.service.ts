@@ -4,6 +4,7 @@ import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Product } from '../api/product';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -15,15 +16,13 @@ export class ProductService {
         private db: AngularFireDatabase) { }
 
     getProductsSmall() {
-        return this.http.get<any>('assets/demo/data/products-small.json')
-            .toPromise()
+        return lastValueFrom(this.http.get<any>('assets/demo/data/products-small.json'))
             .then(res => res.data as Product[])
             .then(data => data);
     }
 
     getProducts() {
-        return this.http.get<any>('assets/demo/data/products.json')
-            .toPromise()
+        return lastValueFrom(this.http.get<any>('assets/demo/data/products.json'))
             .then(res => res.data as Product[])
             .then(data => data);
     }

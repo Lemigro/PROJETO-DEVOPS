@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Pet } from '../../../../demo/api/pet.model';
+import { Pet } from './model/pet.model';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { PetService } from '../../../../demo/service/pet.service';
+import { PetService } from './service/pet.service';
 
 
 @Component({
@@ -17,9 +17,11 @@ export class CrudComponent implements OnInit {
 
     deletePetsDialog: boolean = false;
 
-    pets: Pet[] = [];
+    pets: any[] = [];
 
     pet: Pet = {};
+
+    tutores: any[] = [];
 
     selectedPets: Pet[] = [];
 
@@ -34,7 +36,10 @@ export class CrudComponent implements OnInit {
     constructor(private petService: PetService, private messageService: MessageService) { }
 
     ngOnInit() {
-        this.petService.getPets().subscribe(data => this.pets = data);
+        this.petService.getPets().subscribe(
+            data => this.pets = data,
+            error => console.error('Erro ao obter dados dos pets:', error)
+          );
 
         this.cols = [
             { field: 'pet', header: 'Pet' },
@@ -45,10 +50,18 @@ export class CrudComponent implements OnInit {
         ];
 
         this.statuses = [
-            { label: 'INSTOCK', value: 'instock' },
-            { label: 'LOWSTOCK', value: 'lowstock' },
-            { label: 'OUTOFSTOCK', value: 'outofstock' }
+            { label: 'Tutor 1', value: 'Tutor 1' },
+            { label: 'Tutor 2', value: 'Tutor 2' },
+            { label: 'Tutor 3', value: 'Tutor 3' }
         ];
+
+        this.tutores = [
+            { label: 'Tutor 1', value: 'Tutor 1' },
+            { label: 'Tutor 2', value: 'Tutor 2' },
+            { label: 'Tutor 3', value: 'Tutor 3' }
+        ];
+
+
     }
 
     openNew() {
@@ -96,11 +109,11 @@ export class CrudComponent implements OnInit {
         this.submitted = true;
 
         if (this.pet.name?.trim()) {
-            if (this.pet.id) {
+            if (this.pet.key) {
                 // @ts-ignore
                 this.pet.inventoryStatus = this.pet.inventoryStatus.value ? this.pet.inventoryStatus.value : this.pet.inventoryStatus;
                 // this.pets[this.findIndexById(this.pet.id)] = this.pet;
-                this.petService.updatePet(this.pet.id, this.pet);
+                this.petService.updatePet(this.pet.key, this.pet);
                 this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Pet Updated', life: 3000 });
             } else {
                 this.pet.id = this.createId();

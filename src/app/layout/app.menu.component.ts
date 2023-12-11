@@ -86,9 +86,9 @@ export class AppMenuComponent implements OnInit {
                     //     ]
                     // },
                     {
-                        label: 'CLIENTES',
+                        label: 'TUTORES',
                         icon: 'pi pi-fw pi-pencil',
-                        routerLink: ['/pages/crud']
+                        routerLink: ['/pages/crud-tutores']
                     },
                     {
                         label: 'PETS',

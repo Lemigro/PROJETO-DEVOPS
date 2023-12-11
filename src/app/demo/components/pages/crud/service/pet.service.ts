@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Pet } from '../api/pet.model';
+import { Pet } from '../model/pet.model';
 
 @Injectable({
     providedIn: 'root'
 })
 export class PetService {
 
-    private basePath = "products"
+    private basePath = "pets"
     constructor( private db: AngularFireDatabase) { }
 
     createPet(pet: Pet): any {
