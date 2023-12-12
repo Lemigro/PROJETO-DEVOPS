@@ -12,6 +12,14 @@ export class PetService {
     private basePath = "pets"
     constructor( private db: AngularFireDatabase) { }
 
+    getAll() {
+        return this.db.list<Pet>(this.basePath).snapshotChanges().pipe(
+            map(changes =>
+                changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+            )
+        );
+    }
+    
     createPet(pet: Pet): any {
         return this.db.list<Pet>(this.basePath).push(pet);
     }

@@ -12,6 +12,14 @@ export class TutorService {
     private basePath = "tutores"
     constructor( private db: AngularFireDatabase) { }
 
+    getAll() {
+        return this.db.list<Tutor>(this.basePath).snapshotChanges().pipe(
+            map(changes =>
+                changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+            )
+        );
+    }
+
     createTutor(tutores: Tutor): any {
         return this.db.list<Tutor>(this.basePath).push(tutores);
     }
@@ -33,7 +41,7 @@ export class TutorService {
         return this.db.object<Tutor>(`${this.basePath}/${key}`).update(value);
     }
 
-    deteleTutor(key: string): Promise<void> {
+    deleteTutor(key: string): Promise<void> {
         return this.db.object<Tutor>(`${this.basePath}/${key}`).remove();
     }
     

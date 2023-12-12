@@ -17,7 +17,7 @@ export class CrudTutoresComponent implements OnInit {
 
     deleteTutoresDialog: boolean = false;
 
-    tutores: any[] = [];
+    tutores: Tutor[] = [];
 
     tutor: Tutor = {};
 
@@ -36,13 +36,13 @@ export class CrudTutoresComponent implements OnInit {
     constructor(private tutorService: TutorService, private messageService: MessageService) { }
 
     ngOnInit() {
-        this.tutorService.getTutores().subscribe(
+        this.tutorService.getAll().subscribe(
             data => this.tutores = data,
             error => console.error('Erro ao obter dados dos tutores:', error)
           );
 
         this.cols = [
-            { field: 'tutor', header: 'Pet' },
+            { field: 'tutor', header: 'Tutor' },
             { field: 'price', header: 'Price' },
             { field: 'category', header: 'Category' },
             { field: 'rating', header: 'Reviews' },
@@ -88,15 +88,16 @@ export class CrudTutoresComponent implements OnInit {
     confirmDeleteSelected() {
         this.deleteTutoresDialog = false;
         // this.tutores = this.tutores.filter(val => !this.selectedPets.includes(val));
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
+        this.tutorService.deleteTutor(this.tutor.key);
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Tutor Deleted', life: 3000 });
         this.selectedTutores = [];
     }
 
     confirmDelete() {
         this.deleteTutorDialog = false;
         // this.tutores = this.tutores.filter(val => val.id !== this.tutor.id);
-        this.tutorService.deteleTutor(this.tutor.id);
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Pet Deleted', life: 3000 });
+        this.tutorService.deleteTutor(this.tutor.key);
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Tutor Deleted', life: 3000 });
         this.tutor = {};
     }
 
@@ -113,14 +114,15 @@ export class CrudTutoresComponent implements OnInit {
                 // @ts-ignore
                 this.tutor.inventoryStatus = this.tutor.inventoryStatus.value ? this.tutor.inventoryStatus.value : this.tutor.inventoryStatus;
                 // this.tutores[this.findIndexById(this.tutor.id)] = this.tutor;
-                this.tutorService.updateTutor(this.tutor.id, this.tutor);
+                this.tutorService.updateTutor(this.tutor.key, this.tutor);
                 this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Tutor Updated', life: 3000 });
             } else {
                 this.tutor.id = this.createId();
+                this.tutor.code = this.createId();
                 this.tutorService.createTutor(this.tutor);
                 // this.product.id = this.createId();
                 // this.product.code = this.createId();
-                // this.product.image = 'product-placeholder.svg';
+                this.tutor.image = 'tutor-placeholder.svg';
                 // @ts-ignore
                 this.tutor.inventoryStatus = this.tutor.inventoryStatus ? this.tutor.inventoryStatus.value : 'INSTOCK';
                 // this.tutores.push(this.tutor);

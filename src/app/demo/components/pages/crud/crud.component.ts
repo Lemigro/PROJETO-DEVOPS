@@ -17,7 +17,7 @@ export class CrudComponent implements OnInit {
 
     deletePetsDialog: boolean = false;
 
-    pets: any[] = [];
+    pets: Pet[] = [];
 
     pet: Pet = {};
 
@@ -36,7 +36,7 @@ export class CrudComponent implements OnInit {
     constructor(private petService: PetService, private messageService: MessageService) { }
 
     ngOnInit() {
-        this.petService.getPets().subscribe(
+        this.petService.getAll().subscribe(
             data => this.pets = data,
             error => console.error('Erro ao obter dados dos pets:', error)
           );
@@ -88,14 +88,15 @@ export class CrudComponent implements OnInit {
     confirmDeleteSelected() {
         this.deletePetsDialog = false;
         // this.pets = this.pets.filter(val => !this.selectedPets.includes(val));
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
+        this.petService.deletePet(this.pet.key);
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Pets Deleted', life: 3000 });
         this.selectedPets = [];
     }
 
     confirmDelete() {
         this.deletePetDialog = false;
         // this.pets = this.pets.filter(val => val.id !== this.pet.id);
-        this.petService.deletePet(this.pet.id);
+        this.petService.deletePet(this.pet.key);
         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Pet Deleted', life: 3000 });
         this.pet = {};
     }
@@ -117,15 +118,16 @@ export class CrudComponent implements OnInit {
                 this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Pet Updated', life: 3000 });
             } else {
                 this.pet.id = this.createId();
-                this.petService.createPet(this.pet);
+                this.pet.code = this.createId();
+                this.petService.createPet(this.pet);                
                 // this.product.id = this.createId();
                 // this.product.code = this.createId();
-                // this.product.image = 'product-placeholder.svg';
+                this.pet.image = 'pet-placeholder.svg';
                 // @ts-ignore
                 this.pet.inventoryStatus = this.pet.inventoryStatus ? this.pet.inventoryStatus.value : 'INSTOCK';
                 // this.pets.push(this.pet);
                 this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Pet Created', life: 3000 });
-            }
+            } 
 
             this.pets = [...this.pets];
             this.petDialog = false;
