@@ -33,7 +33,7 @@ export class PetService {
         return this.db.object<Pet>(`${this.basePath}/${key}`).update(value);
     }
 
-    detelePet(key: string): Promise<void> {
+    deletePet(key: string): Promise<void> {
         return this.db.object<Pet>(`${this.basePath}/${key}`).remove();
     }
     
