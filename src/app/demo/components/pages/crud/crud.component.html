@@ -124,6 +124,11 @@
                     </p-dropdown>
                 </div>
 
+                <div class="field">
+                    <label for="tutor">Tutor</label>
+                    <p-dropdown [(ngModel)]="selectedTutor" inputId="tutor" [options]="tutores" placeholder="Selecione o tutor"></p-dropdown>
+                </div>
+                <br><br><br><br>
             </ng-template>
 
             <ng-template pTemplate="footer">

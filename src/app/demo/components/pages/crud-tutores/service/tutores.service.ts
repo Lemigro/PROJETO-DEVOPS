@@ -45,4 +45,8 @@ export class TutorService {
         return this.db.object<Tutor>(`${this.basePath}/${key}`).remove();
     }
     
+    getTutoresFromFirebase(): Observable<Tutor[]> {
+        return this.db.list<Tutor>(this.basePath).valueChanges();
+    }
+
 }

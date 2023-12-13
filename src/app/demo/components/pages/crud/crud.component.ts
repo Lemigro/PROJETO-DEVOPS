@@ -3,6 +3,7 @@ import { Pet } from '../../../../demo/api/pet.model';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { PetService } from '../../../../demo/service/pet.service';
+import { TutorService } from '../crud-tutores/service/tutores.service';
 
 
 @Component({
@@ -33,10 +34,17 @@ export class CrudComponent implements OnInit {
 
     rowsPerPageOptions = [5, 10, 20];
 
-    constructor(private petService: PetService, private messageService: MessageService) { }
+    constructor(private petService: PetService, private tutorService: TutorService, private messageService: MessageService) { }
 
     ngOnInit() {
-        this.petService.getPets().subscribe(data => this.pets = data);
+        this.petService.getPets().subscribe(data => this.pets = data)
+        this.tutorService.getTutoresFromFirebase().subscribe(
+            tutores => {
+                // Converta os tutores para o formato adequado para o p-dropdown
+                this.tutores = tutores.map(tutor => ({ label: tutor.nome, value: tutor.id }));
+            },
+            error => console.error('Erro ao obter dados dos tutores:', error)
+        );
 
         this.cols = [
             { field: 'nome', header: 'nome' },
@@ -52,12 +60,6 @@ export class CrudComponent implements OnInit {
             { label: 'MASCULINO', value: 'masculino' },
             { label: 'FEMININO', value: 'feminino' },
             { label: 'OUTRO', value: 'outro' }
-        ];
-
-        this.tutores = [
-            { label: 'Tutor 1', value: 'Tutor 1' },
-            { label: 'Tutor 2', value: 'Tutor 2' },
-            { label: 'Tutor 3', value: 'Tutor 3' }
         ];
 
 
