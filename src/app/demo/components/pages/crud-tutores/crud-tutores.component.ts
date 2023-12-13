@@ -109,7 +109,7 @@ export class CrudTutoresComponent implements OnInit {
     saveTutor() {
         this.submitted = true;
 
-        if (this.tutor.name?.trim()) {
+        if (this.tutor.nome?.trim()) {
             if (this.tutor.key) {
                 // @ts-ignore
                 this.tutor.inventoryStatus = this.tutor.inventoryStatus.value ? this.tutor.inventoryStatus.value : this.tutor.inventoryStatus;
@@ -122,7 +122,6 @@ export class CrudTutoresComponent implements OnInit {
                 this.tutorService.createTutor(this.tutor);
                 // this.product.id = this.createId();
                 // this.product.code = this.createId();
-                this.tutor.image = 'tutor-placeholder.svg';
                 // @ts-ignore
                 this.tutor.inventoryStatus = this.tutor.inventoryStatus ? this.tutor.inventoryStatus.value : 'INSTOCK';
                 // this.tutores.push(this.tutor);

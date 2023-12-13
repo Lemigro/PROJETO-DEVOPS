@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Pet } from './model/pet.model';
+import { Pet } from '../../../../demo/api/pet.model';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { PetService } from './service/pet.service';
+import { PetService } from '../../../../demo/service/pet.service';
 
 
 @Component({
@@ -29,30 +29,29 @@ export class CrudComponent implements OnInit {
 
     cols: any[] = [];
 
-    statuses: any[] = [];
+    sexo: any[] = [];
 
     rowsPerPageOptions = [5, 10, 20];
 
     constructor(private petService: PetService, private messageService: MessageService) { }
 
     ngOnInit() {
-        this.petService.getAll().subscribe(
-            data => this.pets = data,
-            error => console.error('Erro ao obter dados dos pets:', error)
-          );
+        this.petService.getPets().subscribe(data => this.pets = data);
 
         this.cols = [
-            { field: 'pet', header: 'Pet' },
-            { field: 'price', header: 'Price' },
-            { field: 'category', header: 'Category' },
-            { field: 'rating', header: 'Reviews' },
-            { field: 'inventoryStatus', header: 'Status' }
+            { field: 'nome', header: 'nome' },
+            { field: 'especie', header: 'especie' },
+            { field: 'idade', header: 'idade' },
+            { field: 'dataNascimento', header: 'dataNascimento' },
+            { field: 'peso', header: 'peso' },
+            { field: 'cor', header: 'cor' },
+            { field: 'sexo', header: 'sexo' }
         ];
 
-        this.statuses = [
-            { label: 'Tutor 1', value: 'Tutor 1' },
-            { label: 'Tutor 2', value: 'Tutor 2' },
-            { label: 'Tutor 3', value: 'Tutor 3' }
+        this.sexo = [
+            { label: 'MASCULINO', value: 'masculino' },
+            { label: 'FEMININO', value: 'feminino' },
+            { label: 'OUTRO', value: 'outro' }
         ];
 
         this.tutores = [
@@ -90,7 +89,6 @@ export class CrudComponent implements OnInit {
         // this.pets = this.pets.filter(val => !this.selectedPets.includes(val));
         this.petService.deletePet(this.pet.key);
         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Pets Deleted', life: 3000 });
-        this.selectedPets = [];
     }
 
     confirmDelete() {
@@ -98,7 +96,6 @@ export class CrudComponent implements OnInit {
         // this.pets = this.pets.filter(val => val.id !== this.pet.id);
         this.petService.deletePet(this.pet.key);
         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Pet Deleted', life: 3000 });
-        this.pet = {};
     }
 
     hideDialog() {
@@ -109,20 +106,15 @@ export class CrudComponent implements OnInit {
     savePet() {
         this.submitted = true;
 
-        if (this.pet.name?.trim()) {
+        if (this.pet.nome?.trim()) {
             if (this.pet.key) {
                 // @ts-ignore
-                this.pet.inventoryStatus = this.pet.inventoryStatus.value ? this.pet.inventoryStatus.value : this.pet.inventoryStatus;
+                this.pet.sexo = this.pet.sexo.value ? this.pet.sexo.value : this.pet.sexo;
                 // this.pets[this.findIndexById(this.pet.id)] = this.pet;
                 this.petService.updatePet(this.pet.key, this.pet);
                 this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Pet Updated', life: 3000 });
             } else {
-                this.pet.id = this.createId();
-                this.pet.code = this.createId();
-                this.petService.createPet(this.pet);                
-                // this.product.id = this.createId();
-                // this.product.code = this.createId();
-                this.pet.image = 'pet-placeholder.svg';
+                this.petService.createPet(this.pet);
                 // @ts-ignore
                 this.pet.inventoryStatus = this.pet.inventoryStatus ? this.pet.inventoryStatus.value : 'INSTOCK';
                 // this.pets.push(this.pet);
