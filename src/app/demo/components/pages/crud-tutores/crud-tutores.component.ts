@@ -17,11 +17,9 @@ export class CrudTutoresComponent implements OnInit {
 
     deleteTutoresDialog: boolean = false;
 
-    tutores: Tutor[] = [];
+    tutores: any[] = [];
 
     tutor: Tutor = {};
-
-    tutores2: any[] = [];
 
     selectedTutores: Tutor[] = [];
 
@@ -29,7 +27,7 @@ export class CrudTutoresComponent implements OnInit {
 
     cols: any[] = [];
 
-    statuses: any[] = [];
+    sexo: any[] = [];
 
     rowsPerPageOptions = [5, 10, 20];
 
@@ -37,25 +35,30 @@ export class CrudTutoresComponent implements OnInit {
 
     ngOnInit() {
         this.tutorService.getAll().subscribe(
-            data => this.tutores = data,
+            data => this.sexo = data,
             error => console.error('Erro ao obter dados dos tutores:', error)
           );
 
         this.cols = [
-            { field: 'tutor', header: 'Tutor' },
-            { field: 'price', header: 'Price' },
-            { field: 'category', header: 'Category' },
-            { field: 'rating', header: 'Reviews' },
-            { field: 'inventoryStatus', header: 'Status' }
+            { field: 'nome', header: 'nome' },
+            { field: 'rua', header: 'rua' },
+            { field: 'bairro', header: 'bairro' },
+            { field: 'numero', header: 'numero' },
+            { field: 'cidade', header: 'cidade' },
+            { field: 'cep', header: 'cep' },
+            { field: 'estado', header: 'estado' },
+            { field: 'telefone', header: 'telefone' },
+            { field: 'cpf', header: 'cpf' },
+            { field: 'sexo', header: 'sexo' },
         ];
 
-        this.statuses = [
-            { label: 'Tutor 1', value: 'Tutor 1' },
-            { label: 'Tutor 2', value: 'Tutor 2' },
-            { label: 'Tutor 3', value: 'Tutor 3' }
+        this.sexo = [
+            { label: 'MASCULINO', value: 'masculino' },
+            { label: 'FEMININO', value: 'feminino' },
+            { label: 'OUTRO', value: 'outro' }
         ];
 
-        this.tutores2 = [
+        this.tutores = [
             { label: 'Tutor 1', value: 'Tutor 1' },
             { label: 'Tutor 2', value: 'Tutor 2' },
             { label: 'Tutor 3', value: 'Tutor 3' }
@@ -112,7 +115,7 @@ export class CrudTutoresComponent implements OnInit {
         if (this.tutor.nome?.trim()) {
             if (this.tutor.key) {
                 // @ts-ignore
-                this.tutor.inventoryStatus = this.tutor.inventoryStatus.value ? this.tutor.inventoryStatus.value : this.tutor.inventoryStatus;
+                this.tutor.sexo = this.tutor.sexo.value ? this.tutor.sexo.value : this.tutor.sexo;
                 // this.tutores[this.findIndexById(this.tutor.id)] = this.tutor;
                 this.tutorService.updateTutor(this.tutor.key, this.tutor);
                 this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Tutor Updated', life: 3000 });
@@ -136,8 +139,8 @@ export class CrudTutoresComponent implements OnInit {
 
     findIndexById(id: string): number {
         let index = -1;
-        for (let i = 0; i < this.tutores.length; i++) {
-            if (this.tutores[i].id === id) {
+        for (let i = 0; i < this.sexo.length; i++) {
+            if (this.sexo[i].id === id) {
                 index = i;
                 break;
             }
