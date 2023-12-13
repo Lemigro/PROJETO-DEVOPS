@@ -7,12 +7,14 @@ export interface Tutor {
     id?: string;
     code?: string;
     key?: string;
-    name?: string;
-    description?: string;
-    price?: number;
-    quantity?: number;
-    inventoryStatus?: InventoryStatus;
-    category?: string;
-    image?: string;
-    rating?: number;
+    nome?: string;
+    rua?: string;
+    bairro?: string;
+    numero?: number;
+    cidade?: string;
+    cep?: string;
+    estado?: string;
+    telefone?: string;
+    cpf?: string;
+    sexo?: string;
 }
