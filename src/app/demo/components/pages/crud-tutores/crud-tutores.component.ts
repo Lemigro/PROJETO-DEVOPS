@@ -34,10 +34,10 @@ export class CrudTutoresComponent implements OnInit {
     constructor(private tutorService: TutorService, private messageService: MessageService) { }
 
     ngOnInit() {
-        this.tutorService.getAll().subscribe(
-            data => this.sexo = data,
-            error => console.error('Erro ao obter dados dos tutores:', error)
-          );
+            this.tutorService.getAll().subscribe(
+              data => this.tutores = data,
+              error => console.error('Erro ao obter dados dos tutores:', error)
+            );
 
         this.cols = [
             { field: 'nome', header: 'nome' },
