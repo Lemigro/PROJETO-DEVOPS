@@ -1,8 +1,3 @@
-interface InventoryStatus {
-    label: string;
-    value: string;
-}
-
 export interface Tutor {
     id?: string;
     code?: string;
@@ -16,5 +11,12 @@ export interface Tutor {
     estado?: string;
     telefone?: string;
     cpf?: string;
-    sexo?: string;
+    sexo?: Sexo; // Utilizando a enumeração Sexo
+}
+
+// Enumeração para o campo sexo
+export enum Sexo {
+    Masculino = 'Masculino',
+    Feminino = 'Feminino',
+    Outro = 'Outro',
 }

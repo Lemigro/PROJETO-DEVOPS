@@ -116,7 +116,7 @@ export class CrudComponent implements OnInit {
             } else {
                 this.petService.createPet(this.pet);
                 // @ts-ignore
-                this.pet.inventoryStatus = this.pet.inventoryStatus ? this.pet.inventoryStatus.value : 'INSTOCK';
+                this.pet.sexo = this.pet.sexo ? this.pet.sexo.value : 'OUTRO';
                 // this.pets.push(this.pet);
                 this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Pet Created', life: 3000 });
             } 

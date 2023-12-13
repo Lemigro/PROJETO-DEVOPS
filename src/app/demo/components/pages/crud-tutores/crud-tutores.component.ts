@@ -21,15 +21,13 @@ export class CrudTutoresComponent implements OnInit {
 
     tutor: Tutor = {};
 
-    tutores2: any[] = [];
-
     selectedTutores: Tutor[] = [];
 
     submitted: boolean = false;
 
     cols: any[] = [];
 
-    statuses: any[] = [];
+    sexo: any[] = [];
 
     rowsPerPageOptions = [5, 10, 20];
 
@@ -41,26 +39,21 @@ export class CrudTutoresComponent implements OnInit {
             error => console.error('Erro ao obter dados dos tutores:', error)
           );
 
-        this.cols = [
-            { field: 'tutor', header: 'Tutor' },
-            { field: 'price', header: 'Price' },
-            { field: 'category', header: 'Category' },
-            { field: 'rating', header: 'Reviews' },
-            { field: 'inventoryStatus', header: 'Status' }
+          this.cols = [
+            { field: 'nome', header: 'nome' },
+            { field: 'especie', header: 'especie' },
+            { field: 'idade', header: 'idade' },
+            { field: 'dataNascimento', header: 'dataNascimento' },
+            { field: 'peso', header: 'peso' },
+            { field: 'cor', header: 'cor' },
+            { field: 'sexo', header: 'sexo' }
         ];
 
-        this.statuses = [
-            { label: 'Tutor 1', value: 'Tutor 1' },
-            { label: 'Tutor 2', value: 'Tutor 2' },
-            { label: 'Tutor 3', value: 'Tutor 3' }
+        this.sexo = [
+            { label: 'MASCULINO', value: 'masculino' },
+            { label: 'FEMININO', value: 'feminino' },
+            { label: 'OUTRO', value: 'outro' }
         ];
-
-        this.tutores2 = [
-            { label: 'Tutor 1', value: 'Tutor 1' },
-            { label: 'Tutor 2', value: 'Tutor 2' },
-            { label: 'Tutor 3', value: 'Tutor 3' }
-        ];
-
 
     }
 
@@ -98,7 +91,6 @@ export class CrudTutoresComponent implements OnInit {
         // this.tutores = this.tutores.filter(val => val.id !== this.tutor.id);
         this.tutorService.deleteTutor(this.tutor.key);
         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Tutor Deleted', life: 3000 });
-        this.tutor = {};
     }
 
     hideDialog() {
@@ -112,18 +104,16 @@ export class CrudTutoresComponent implements OnInit {
         if (this.tutor.nome?.trim()) {
             if (this.tutor.key) {
                 // @ts-ignore
-                this.tutor.inventoryStatus = this.tutor.inventoryStatus.value ? this.tutor.inventoryStatus.value : this.tutor.inventoryStatus;
+                this.tutor.sexo = this.tutor.sexo.value ? this.tutor.sexo.value : this.tutor.sexo;
                 // this.tutores[this.findIndexById(this.tutor.id)] = this.tutor;
                 this.tutorService.updateTutor(this.tutor.key, this.tutor);
                 this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Tutor Updated', life: 3000 });
-            } else {
-                this.tutor.id = this.createId();
-                this.tutor.code = this.createId();
+            } else {                
                 this.tutorService.createTutor(this.tutor);
                 // this.product.id = this.createId();
                 // this.product.code = this.createId();
                 // @ts-ignore
-                this.tutor.inventoryStatus = this.tutor.inventoryStatus ? this.tutor.inventoryStatus.value : 'INSTOCK';
+                this.tutor.sexo = this.tutor.sexo ? this.tutor.sexo.value : 'OUTRO';
                 // this.tutores.push(this.tutor);
                 this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Tutor Created', life: 3000 });
             }
